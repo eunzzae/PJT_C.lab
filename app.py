@@ -14,7 +14,7 @@ warnings.filterwarnings('ignore')
 
 # Data read
 pd.set_option('display.max_columns', 500)
-bath = '/C:\Users\dmsco\Documents\GitHub\C.lab_recommendation\data/'
+bath = '/C:\Users\dmsco\Documents\GitHub\C.lab_recommendation\data\'
 cus_df = pd.read_excel(bath+'Customer_Data_ori.xlsx')
 map_df = pd.read_csv(bath+'course_data_0124.csv')
 
