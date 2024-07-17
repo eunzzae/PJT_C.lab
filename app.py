@@ -130,7 +130,11 @@ def recommend_courses(course_names, child_age_months, map_df):
     # 아이의 개월 수로 코스 필터링
     filtered_courses = filter_courses_by_age(child_age_months, map_df)
 
-    return filtered_courses['코스 명'].head()
+    # 필요한 컬럼 선택 및 인덱스 제거
+    result_columns = ['코스 명', '기간(week)', '추천태그', '세부내용', '양육자Only' ]
+    filtered_courses = filtered_courses[result_columns].reset_index(drop=True)
+
+    return filtered_courses.head()
 
 
 # 데이터 전처리
@@ -139,18 +143,34 @@ map_df = preprocess_map_data(map_df)
 
 
 def main():
-    st.title("육아 코스 추천 시스템")
+    st.title("👼육아 코스 추천👼")
 
     # 사용자 입력 받기
-    course_names = st.text_input('육아 고민을 입력하세요 : ')
-    child_age_months = st.number_input('아이의 나이(개월 수)를 입력하세요 : ', min_value=0, max_value=100, step=1)
+    # 육아 고민 선택 옵션
+    concerns_options = ['필수 육아관',  '태담','생애초기',
+        '대화법',  '생활습관', '갈등중재', '상호작용', '발달사항', '언어자극','육아대화',  '육아관', 
+        '칭찬',  '싫어', '애착', '식습관', '그만봐',  '사교육', '어린이집', '자기공감', 
+        '거절',  '샤워', '미디어', '집안일',  '등하원',  '감정표현', 
+        '배변', '디지털', '놀이터', '육아방법',  '훈육상황', '놀이', '공격성', '분리불안', 
+        '건강', '수면', '공감 육아방법', '발달',  '관계',  '감사',  '떼쓰기', '훈육', '약속',
+        '산후우울','육아번아웃','초보부모', '육아스트레스', '우울감','가사분담 육아관','부모역할','부부대화', '육아분담',
+        '연년생','형제','남매', '미운네살', '아들딸', '쌍둥이'
+    ]
+
+    selected_concerns = st.multiselect('당신의 육아 고민은 무엇입니까?', concerns_options, help="육아 고민을 최소 3개 이상 선택해주세요.")
+    course_names = ' '.join(selected_concerns)
+    
+    child_age_months = st.number_input('아이의 나이(개월 수)를 입력해주세요. : ', min_value=0, max_value=72, step=1, help="아이의 나이는 0부터 72개월 사이로 입력해주세요.")
 
     if st.button('추천 코스 찾기'):
-        if course_names and child_age_months:
+        if len(selected_concerns) >= 3 and child_age_months is not None:
             # 추천 코스 출력
             recommended_courses = recommend_courses(course_names, int(child_age_months), map_df)
             st.write("다음과 같은 코스가 추천되었습니다.")
             st.write(recommended_courses)
+        else:
+            st.write("육아 고민을 최소 3개 이상 선택하고 아이의 나이를 입력해주세요.")
+            
 
 
 if __name__ == '__main__':
