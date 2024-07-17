@@ -131,7 +131,7 @@ def recommend_courses(course_names, child_age_months, map_df):
     filtered_courses = filter_courses_by_age(child_age_months, map_df)
 
     # 필요한 컬럼 선택 및 인덱스 제거
-    result_columns = ['코스 명', '기간(week)', '추천 태그', '세부내용', '양육자Only' ]
+    result_columns = ['코스 명', '기간(week)', '추천태그', '세부내용', '양육자Only' ]
     filtered_courses = filtered_courses[result_columns].reset_index(drop=True)
 
     return filtered_courses.head()
