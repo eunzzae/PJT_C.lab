@@ -64,7 +64,7 @@ def preprocess_map_data(map_df):
 
     # 불필요한 컬럼 드랍
     map_df.drop([
-        '주제    구분', '3T', 'NVC', '육아정보', '시기', '시기_2', '양육자Only', '기간(week)',
+        '주제    구분', '3T', 'NVC', '육아정보', '시기', '시기_2', 
         'Score_3T', 'Score_NVC', 'Score_육아정보', 'Total_Score'
     ], axis=1, inplace=True)
     
@@ -131,7 +131,7 @@ def recommend_courses(course_names, child_age_months, map_df):
     filtered_courses = filter_courses_by_age(child_age_months, map_df)
 
     # 필요한 컬럼 선택 및 인덱스 제거
-    result_columns = ['코스 명', '기간(week)', '추천태그', '세부내용', '양육자Only' ]
+    result_columns = ['코스 명', '기간(week)', '추천 태그', '세부내용', '양육자Only' ]
     filtered_courses = filtered_courses[result_columns].reset_index(drop=True)
 
     return filtered_courses.head()
